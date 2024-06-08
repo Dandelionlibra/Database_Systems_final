@@ -125,11 +125,18 @@ CREATE TABLE team (
     member4 VARCHAR(25) DEFAULT NULL,
 	PRIMARY KEY(u_id, team_id),
     FOREIGN KEY (u_id) REFERENCES players(u_id),
-    FOREIGN KEY (u_id, member1) REFERENCES player_characters(u_id, character_name),
-    FOREIGN KEY (u_id, member2) REFERENCES player_characters(u_id, character_name),
-    FOREIGN KEY (u_id, member3) REFERENCES player_characters(u_id, character_name),
-    FOREIGN KEY (u_id, member4) REFERENCES player_characters(u_id, character_name)
+    FOREIGN KEY (u_id, member1) REFERENCES player_characters(u_id, character_name) ON DELETE CASCADE,
+    FOREIGN KEY (u_id, member2) REFERENCES player_characters(u_id, character_name) ON DELETE CASCADE,
+    FOREIGN KEY (u_id, member3) REFERENCES player_characters(u_id, character_name) ON DELETE CASCADE,
+    FOREIGN KEY (u_id, member4) REFERENCES player_characters(u_id, character_name) ON DELETE CASCADE
 );
+
+-- 删除舊的外鍵
+ALTER TABLE team DROP CONSTRAINT team_u_id_member4_fkey;
+-- 新的外鍵約束，包含 ON UPDATE CASCADE
+ALTER TABLE team
+ADD CONSTRAINT team_u_id_member4_fkey
+FOREIGN KEY (u_id, member4) REFERENCES player_characters(u_id, character_name) ON DELETE CASCADE;
 
 -- ALTER TABLE team ALTER COLUMN member1 DROP NOT NULL;
 -- ALTER TABLE team ALTER COLUMN member1 SET DEFAULT NULL;
