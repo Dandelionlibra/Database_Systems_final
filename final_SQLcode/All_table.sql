@@ -154,9 +154,9 @@ CREATE TABLE team_backup (
     member2 VARCHAR(25) DEFAULT NULL,
     member3 VARCHAR(25) DEFAULT NULL,
     member4 VARCHAR(25) DEFAULT NULL,
-    expected_damage INTEGER,
-    highest_damage INTEGER,
-    lowest_damage INTEGER
+    expected_damage FLOAT,
+    highest_damage FLOAT,
+    lowest_damage FLOAT
 );
 
 ALTER TABLE team_backup ALTER COLUMN u_id DROP UNIQUE;

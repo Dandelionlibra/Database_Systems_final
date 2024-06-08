@@ -37,7 +37,7 @@ BEGIN
         VALUES (oldest_team.u_id, oldest_team.create_time, oldest_team.team_name, oldest_team.member1, oldest_team.member2, oldest_team.member3, oldest_team.member4,
                 (SELECT COALESCE(SUM(character_expected_atk), 0) FROM view_character_expected_atk WHERE u_id = oldest_team.u_id AND character_name IN (oldest_team.member1, oldest_team.member2, oldest_team.member3, oldest_team.member4)),
                 (SELECT COALESCE(SUM(character_highest_atk), 0) FROM view_character_highest_atk WHERE u_id = oldest_team.u_id AND character_name IN (oldest_team.member1, oldest_team.member2, oldest_team.member3, oldest_team.member4)),
-                (SELECT COALESCE(SUM(character_lowest_atk), 0) FROM view_character_lowest_atk WHERE u_id = oldest_team.u_id AND character_name IN (oldest_team.member1, oldest_team.member2, oldest_team.member3, oldest_team.member4)));
+                (SELECT COALESCE(SUM(character_atk), 0) FROM view_character_atk WHERE u_id = oldest_team.u_id AND character_name IN (oldest_team.member1, oldest_team.member2, oldest_team.member3, oldest_team.member4)));
 
         -- 刪除最早的隊伍記錄
         DELETE FROM team WHERE u_id = oldest_team.u_id AND team_id = oldest_team.team_id;
