@@ -1,3 +1,12 @@
+
+INSERT INTO weapon_types (weapon_type_name, atk_bonus) VALUES 
+('單手劍', 6),
+('雙手劍', 7),
+('弓', 6),
+('長柄武器', 7),
+('法器', 8);
+
+
 INSERT INTO weapons (weapon_name, weapon_type, base_atk, w_hp, w_atk, w_def, w_crit_damage, w_crit_rate) VALUES 
 ('天空之刃', '單手劍', 608, 0, 0.551, 0, 0, 0),
 ('斫峰之刃', '單手劍', 608, 0, 0.496, 0, 0, 0),

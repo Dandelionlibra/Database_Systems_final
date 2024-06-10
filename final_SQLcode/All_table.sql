@@ -12,47 +12,11 @@ CREATE TABLE elements (
     atk_bonus INTEGER NOT NULL DEFAULT 1,
     def_bonus INTEGER NOT NULL DEFAULT 1
 );
-INSERT INTO elements (element_type, hp_bonus, atk_bonus, def_bonus) VALUES
-('Pyro', 22, 13, 10), -- 火
-('Hydro', 25, 11, 11), -- 水
-('Anemo', 24, 12, 10), -- 風
-('Electro', 22, 13, 12), -- 雷
-('Dendro', 22, 12, 12), -- 草
-('Cryo', 23, 12, 11), -- 冰
-('Geo', 22, 13, 11); -- 岩
-UPDATE elements
-SET element_type = '火'
-WHERE element_type = 'Pyro' ;
-UPDATE elements
-SET element_type = '水'
-WHERE element_type = 'Hydro' ;
-UPDATE elements
-SET element_type = '風'
-WHERE element_type = 'Anemo' ;
-UPDATE elements
-SET element_type = '雷'
-WHERE element_type = 'Electro' ;
-UPDATE elements
-SET element_type = '草'
-WHERE element_type = 'Dendro' ;
-UPDATE elements
-SET element_type = '冰'
-WHERE element_type = 'Cryo' ;
-UPDATE elements
-SET element_type = '岩'
-WHERE element_type = 'Geo' ;
-
 
 CREATE TABLE weapon_types (
     weapon_type_name VARCHAR(25) PRIMARY KEY,
     atk_bonus INTEGER NOT NULL DEFAULT 1
 );
-INSERT INTO weapon_types (weapon_type_name, atk_bonus) VALUES 
-('單手劍', 6),
-('雙手劍', 7),
-('弓', 6),
-('長柄武器', 7),
-('法器', 8);
 
 CREATE TABLE weapons ( -- game weapons
     weapon_name varchar(25) PRIMARY KEY,
@@ -70,13 +34,13 @@ CREATE TABLE weapons ( -- game weapons
     FOREIGN KEY (weapon_type) REFERENCES weapon_types(weapon_type_name)
 );
 
--- 删除舊的外鍵
+/*-- 删除舊的外鍵
 ALTER TABLE weapons DROP CONSTRAINT weapons_weapon_type_fkey;
 -- 新的外鍵約束，包含 ON UPDATE CASCADE
 ALTER TABLE weapons
 ADD CONSTRAINT weapons_weapon_type_fkey
 FOREIGN KEY (weapon_type) REFERENCES weapon_types(weapon_type_name) ON UPDATE CASCADE;
-
+*/
 
 CREATE TABLE characters ( -- game characters
     -- c_id SERIAL,
@@ -94,13 +58,13 @@ CREATE TABLE characters ( -- game characters
     FOREIGN KEY (weapon_type) REFERENCES weapon_types(weapon_type_name)
 );
 
--- 删除舊的外鍵
+/*-- 删除舊的外鍵
 ALTER TABLE characters DROP CONSTRAINT characters_element_fkey;
 -- 新的外鍵約束，包含 ON UPDATE CASCADE
 ALTER TABLE characters
 ADD CONSTRAINT characters_element_fkey
 FOREIGN KEY (element) REFERENCES elements(element_type) ON UPDATE CASCADE;
-
+*/
 
 CREATE TABLE player_characters (
     u_id INTEGER NOT NULL,
@@ -131,12 +95,13 @@ CREATE TABLE team (
     FOREIGN KEY (u_id, member4) REFERENCES player_characters(u_id, character_name) ON DELETE CASCADE
 );
 
--- 删除舊的外鍵
+/*-- 删除舊的外鍵
 ALTER TABLE team DROP CONSTRAINT team_u_id_member4_fkey;
 -- 新的外鍵約束，包含 ON UPDATE CASCADE
 ALTER TABLE team
 ADD CONSTRAINT team_u_id_member4_fkey
 FOREIGN KEY (u_id, member4) REFERENCES player_characters(u_id, character_name) ON DELETE CASCADE;
+*/
 
 -- ALTER TABLE team ALTER COLUMN member1 DROP NOT NULL;
 -- ALTER TABLE team ALTER COLUMN member1 SET DEFAULT NULL;
@@ -151,13 +116,27 @@ CREATE TABLE team_backup (
     team_name VARCHAR(25),
 
     member1 VARCHAR(25) DEFAULT NULL,
-    member2 VARCHAR(25) DEFAULT NULL,
-    member3 VARCHAR(25) DEFAULT NULL,
-    member4 VARCHAR(25) DEFAULT NULL,
+	weapon1 VARCHAR(25) DEFAULT NULL,
+    
+	member2 VARCHAR(25) DEFAULT NULL,
+	weapon2 VARCHAR(25) DEFAULT NULL,
+    
+	member3 VARCHAR(25) DEFAULT NULL,
+	weapon3 VARCHAR(25) DEFAULT NULL,
+    
+	member4 VARCHAR(25) DEFAULT NULL,
+	weapon4 VARCHAR(25) DEFAULT NULL,
     expected_damage FLOAT,
     highest_damage FLOAT,
     lowest_damage FLOAT
 );
 
-ALTER TABLE team_backup ALTER COLUMN u_id DROP UNIQUE;
-ALTER TABLE team ALTER COLUMN u_id SET DEFAULT NULL;
+-- ALTER TABLE team_backup
+-- ADD COLUMN weapon1 VARCHAR(25) DEFAULT NULL,
+-- ADD COLUMN weapon2 VARCHAR(25) DEFAULT NULL,
+-- ADD COLUMN weapon3 VARCHAR(25) DEFAULT NULL,
+-- ADD COLUMN weapon4 VARCHAR(25) DEFAULT NULL;
+
+
+-- ALTER TABLE team_backup ALTER COLUMN u_id DROP UNIQUE;
+-- ALTER TABLE team ALTER COLUMN u_id SET DEFAULT NULL;

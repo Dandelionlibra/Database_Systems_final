@@ -1,10 +1,10 @@
 /* 建立或更新player_characters 的character_weapon時檢查對應到的
    characters表格中的weapon_type是否等於要裝備的武器的weapon_type，
-   若不等於則回報錯誤訊息，並不可新增或不可更新  */
+   若不等於則回報錯誤訊息，並不可新增 */
 CREATE OR REPLACE FUNCTION check_character_insert()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- 檢查角色是否存在于 characters 表中
+    -- 檢查角色是否存在 characters 表中
     IF NOT EXISTS (
         SELECT 1
         FROM characters
@@ -27,8 +27,8 @@ BEGIN
         RAISE EXCEPTION '# 新增失敗 # 角色等級 % 超出範圍 (1-90)', NEW.character_level;
     END IF;
 
-    -- 檢查武器是否存在于 weapons 表中
-    IF NOT EXISTS (
+    -- 檢查武器是否存在 weapons 表中
+    IF NEW.character_weapon IS NOT NULL and NOT EXISTS (
         SELECT 1
         FROM weapons
         WHERE weapon_name = NEW.character_weapon
