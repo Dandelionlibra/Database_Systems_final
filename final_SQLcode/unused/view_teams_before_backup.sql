@@ -16,10 +16,9 @@ SELECT
     expected_damage,
     highest_damage,
     lowest_damage
-FROM
-    team_backup
--- WHERE
---     backup_time > '2024-06-08 00:00:00' and backup_time < '2024-06-09 00:00:00';
+SELECT *
+FROM team_backup
+WHERE backup_time > '2024-06-09 00:00:00' and backup_time < '2024-06-012 00:00:00';
 
 
 -- SELECT *

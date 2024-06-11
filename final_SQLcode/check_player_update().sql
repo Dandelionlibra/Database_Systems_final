@@ -9,7 +9,7 @@ BEGIN
 
     -- 限制更新玩家等級時，更新等級不能小於舊等級
     IF NEW.players_level < OLD.players_level THEN
-        RAISE EXCEPTION '# 無法更新 # 欲更新的新等級必須大於舊等級\n新等級為%，舊等級為%', NEW.players_level, OLD.players_level;
+        RAISE EXCEPTION '# 無法更新 # 欲更新的新等級必須大於舊等級，新等級為%，舊等級為%', NEW.players_level, OLD.players_level;
     END IF;
 
     -- 檢查玩家等級範圍

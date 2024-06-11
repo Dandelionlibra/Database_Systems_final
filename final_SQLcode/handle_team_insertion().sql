@@ -60,6 +60,11 @@ BEGIN
                 (SELECT COALESCE(SUM(character_atk), 0)
 					FROM view_character_atk
 					WHERE u_id = oldest_team.u_id AND character_name IN (oldest_team.member1, oldest_team.member2, oldest_team.member3, oldest_team.member4)));
+		
+		-- 輸出備份記錄
+        RAISE NOTICE E'# 自動備份，並刪除最早的隊伍資料 # \n備份記錄: \nUID = %, \nTeam Name = %, \nMember1 = %, Weapon1 = %, \nMember2 = %, Weapon2 = %, \nMember3 = %, Weapon3 = %, \nMember4 = %, Weapon4 = %',
+            oldest_team.u_id, oldest_team.team_name, oldest_team.member1, backup_weapon1, oldest_team.member2, backup_weapon2,
+            oldest_team.member3, backup_weapon3, oldest_team.member4, backup_weapon4;
 
         -- 刪除最早的隊伍記錄
         DELETE FROM team WHERE u_id = oldest_team.u_id AND team_id = oldest_team.team_id;

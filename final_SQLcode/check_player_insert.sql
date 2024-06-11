@@ -1,8 +1,8 @@
 CREATE OR REPLACE FUNCTION check_player_insert()
 RETURNS TRIGGER AS $$
 BEGIN
-	-- 檢查UID是否存在
-    IF NOT EXISTS (
+    -- 檢查UID是否存在
+    IF EXISTS (
         SELECT 1
         FROM players
         WHERE u_id = NEW.u_id

@@ -23,3 +23,10 @@ BEGIN
         END LOOP;
     END LOOP;
 END $$;
+
+
+-- /*
+SELECT *
+FROM player_characters
+ORDER by u_id
+-- */

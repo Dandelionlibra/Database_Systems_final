@@ -4,6 +4,15 @@
 CREATE OR REPLACE FUNCTION check_character_insert()
 RETURNS TRIGGER AS $$
 BEGIN
+	-- 檢查u_id是否存在於players表中
+    IF NOT EXISTS (
+        SELECT 1
+        FROM players
+        WHERE u_id = NEW.u_id
+    ) THEN
+        RAISE EXCEPTION '# 新增失敗 # 玩家UID: % 不存在資料庫中', NEW.u_id;
+    END IF;
+
     -- 檢查角色是否存在 characters 表中
     IF NOT EXISTS (
         SELECT 1
@@ -13,7 +22,7 @@ BEGIN
         RAISE EXCEPTION '# 新增失敗 # 角色 % 不存在資料庫中', NEW.character_name;
     END IF;
 
-    -- 檢查角色是否已存在
+    -- 檢查該角色玩家是否已擁有
     IF EXISTS (
         SELECT 1
         FROM player_characters
@@ -40,7 +49,7 @@ BEGIN
     IF NEW.character_weapon IS NOT NULL THEN
         IF (SELECT weapon_type FROM characters WHERE character_name = NEW.character_name) != 
             (SELECT weapon_type FROM weapons WHERE weapon_name = NEW.character_weapon) THEN
-            RAISE NOTICE '# 新增失敗 # 武器類型並不匹配當前角色';
+            RAISE NOTICE '# 新增失敗 # 武器類型並不匹配當前角色，自動卸下當前武器';
 		    NEW.character_weapon = NULL;
         END IF;
     END IF;
